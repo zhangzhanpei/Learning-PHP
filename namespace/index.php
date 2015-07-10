@@ -2,7 +2,7 @@
 namespace Test; //命名空间必须写在第一行
 
 //命名空间的目标是解决重名问题，因为如果两个类或函数重名，则产生一个致命错误
-
+//下面这个Hello类是属于Test空间下的
 class Hello
 {
     public function __construct()
