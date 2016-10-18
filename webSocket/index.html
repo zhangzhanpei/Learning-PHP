@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>web socket</title>
+        <script src="http://cdn.bootcss.com/vue/1.0.28/vue.min.js"></script>
+        <style>
+        .chat{width:100%; height: 500px; background: #ccc;}
+        input[type='text']{width:60%; height: 50px;}
+        input[type='button']{width:30%; height: 50px;}
+        </style>
+    </head>
+    <body id="app">
+        <div class="chat">
+            <p v-for="item in msgs" track-by="$index">{{item}}</p>
+        </div>
+        <input type="text" v-model="msg"/>
+        <input type="button" value="发送" @click.prevent="send" />
+    </body>
+    <script>
+        var socket = new WebSocket('ws://192.168.47.130:8080');
+        socket.onmessage = function(event) {
+            console.log('收到消息' + event.data);
+            vue.msgs.push(event.data);
+        }
+        var vue = new Vue({
+            el: '#app',
+            data: {
+                msg: '',
+                msgs: []
+            },
+            methods: {
+                send: function() {
+                    socket.send(this.msg);
+                    this.msg = '';
+                }
+            }
+        });
+    </script>
+</html>
